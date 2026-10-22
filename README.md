@@ -1,19 +1,20 @@
-# Sachin Dev Loader - ImGui Template
+# Dear ImGui Template
 
-A Windows desktop UI starter built with C++20, Win32, DirectX 11, and Dear ImGui.
+A single-screen Windows desktop UI starter built with C++20, Win32, DirectX 11,
+and Dear ImGui. It uses a frameless dark window and shows the common ImGui
+widgets on one screen: buttons, text fields, numeric inputs, sliders, checkboxes,
+radio buttons, combo boxes, color editing, progress, and tree nodes.
 
-Use this repository as a template for a dark, frameless launcher interface. Click
-**Use this template** on GitHub to start a new repository from it. The current
-build is a self-contained UI preview: every control is local and visual.
+Use this repository as a starting point for your own tool, or click **Use this
+template** on GitHub to create a new repository. The UI is local and
+self-contained. There is no backend, network layer, or saved settings.
 
 ## Features
 
-- Frameless 1120x700 window with a custom title bar and rounded corners
-- Dashboard, Loader, and Settings pages
-- Custom-drawn navigation, cards, buttons, toggles, and progress ring
-- Four selectable accent colors
-- Animated hover and load states
-- Segoe UI fonts loaded at runtime from the system font directory
+- Frameless 1160x700 window with a custom title bar and rounded corners
+- One screen with a three-column widget gallery
+- Custom dark theme with a live accent color picker
+- Segoe UI fonts loaded from the system font directory
 - Static C++ runtime, so the executable does not need the VC++ Redistributable
 - Dear ImGui 1.93.1 WIP vendored in `src/gui` (no submodules, no package manager)
 
@@ -28,20 +29,20 @@ copy of `d3dcompiler`.
 
 ## Build
 
-Open `Loader.sln` in Visual Studio, choose `Release | x64`, and build.
+Open `ImGuiTemplate.sln` in Visual Studio, choose `Release | x64`, and build.
 
 From a terminal:
 
 ```powershell
-msbuild Loader.sln /m /p:Configuration=Release /p:Platform=x64
+msbuild ImGuiTemplate.sln /m /p:Configuration=Release /p:Platform=x64
 ```
 
-The executable is written to `x64\Release\Loader.exe`.
+The executable is written to `x64\Release\ImGuiTemplate.exe`.
 
 For a debug build:
 
 ```powershell
-msbuild Loader.sln /m /p:Configuration=Debug /p:Platform=x64
+msbuild ImGuiTemplate.sln /m /p:Configuration=Debug /p:Platform=x64
 ```
 
 ## Layout
@@ -49,14 +50,14 @@ msbuild Loader.sln /m /p:Configuration=Debug /p:Platform=x64
 ```
 src/
   main.cpp            Win32 window, Direct3D 11 device, frame loop
-  ui.cpp              Fonts, theme, layout, and every drawn widget
+  ui.cpp              Theme, layout, and the single-screen widget gallery
   app.h               Shared globals and app entry points
   resource.h          Icon resource identifier
   Resources/          app.ico, version.rc
   gui/                Vendored Dear ImGui
     backends/         Win32 + DirectX 11 platform/renderer backends
-Loader.sln
-Loader.vcxproj
+ImGuiTemplate.sln
+ImGuiTemplate.vcxproj
 ```
 
 `main.cpp` owns the window and rendering. `ui.cpp` owns the interface.
@@ -69,38 +70,29 @@ Loader.vcxproj
 | Window title        | `app::kTitle` in `src/app.h`                       |
 | Window size         | `app::kWidth`, `app::kHeight` in `src/app.h`       |
 | Version label       | `app::kVersion` in `src/app.h`                     |
-| Accent colors       | `kAccents` in `src/ui.cpp`                         |
-| Sidebar branding    | `draw_sidebar()` in `src/ui.cpp`                   |
-| Pages and widgets   | `page_dashboard()`, `page_loader()`, `page_settings()` |
+| Theme colors        | `kBg`, `kPanel`, `kText`, and related constants in `src/ui.cpp` |
+| Widget gallery      | `draw_inputs_card()`, `draw_selection_card()`, `draw_actions_card()` |
+| Demo state          | `AppState` and `reset_state()` in `src/ui.cpp`     |
 | Fonts and sizes     | `load_fonts()` in `src/ui.cpp`                     |
 | Executable icon     | `src/Resources/app.ico`                            |
 | Version resource    | `src/Resources/version.rc`                         |
 
-To rename the project, rename `Loader.sln`, `Loader.vcxproj`, and
-`Loader.vcxproj.filters`, update the `Project(` line in the solution, and update
-the build commands in `.github/workflows/build-release.yml`.
-
-## What it does not do
-
-- No login, registration, session, or saved credentials
-- No HTTP, WinHTTP, sockets, or remote API calls
-- No hardware IDs, MAC addresses, disk serials, or machine fingerprints
-- No process enumeration, injection, memory access, or game interaction
-- No shell execution, services, registry writes, or startup persistence
-- No elevation request
+To rename the project, rename `ImGuiTemplate.sln`, `ImGuiTemplate.vcxproj`, and
+`ImGuiTemplate.vcxproj.filters`, update the `Project(` line in the solution, and
+update the build commands in `.github/workflows/build-release.yml`.
 
 ## Release
 
 Push a version tag:
 
 ```bash
-git tag v2.1.0
-git push origin v2.1.0
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
 The workflow builds `Release|x64`, writes a SHA-256 checksum, and attaches
-`Loader-v2.1.0-win64.zip` to the GitHub Release. The zip contains the executable,
-this README, and `SHA256SUMS.txt`.
+`ImGuiTemplate-v1.0.0-win64.zip` to the GitHub Release. The zip contains the
+executable, this README, and `SHA256SUMS.txt`.
 
 ## Unsigned builds
 
@@ -111,7 +103,7 @@ certificate before public distribution:
 ```powershell
 signtool sign /fd SHA256 /f certificate.pfx /p "<password>" `
   /tr http://timestamp.digicert.com /td SHA256 `
-  Loader.exe
+  ImGuiTemplate.exe
 ```
 
 A self-signed certificate is suitable only for internal test machines that trust
