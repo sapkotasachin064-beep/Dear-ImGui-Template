@@ -120,7 +120,7 @@ void reset_state()
 
 struct Fonts
 {
-	ImFont* small = nullptr;
+	ImFont* caption = nullptr;
 	ImFont* body = nullptr;
 	ImFont* semibold = nullptr;
 	ImFont* title = nullptr;
@@ -165,7 +165,7 @@ ImFont* load_font(const char* file, float size)
 
 void load_fonts()
 {
-	font.small = load_font("segoeui.ttf", 12.0f);
+	font.caption = load_font("segoeui.ttf", 12.0f);
 	font.body = load_font("segoeui.ttf", 15.0f);
 	font.semibold = load_font("segoeuib.ttf", 15.0f);
 	font.title = load_font("segoeuib.ttf", 28.0f);
@@ -228,7 +228,7 @@ void text_center(ImFont* f, float size, const Rect& r, const ImVec4& color, cons
 
 void label(const char* value, float x, float y)
 {
-	text(font.small, 12.0f, ImVec2(x, y), kMuted, value);
+	text(font.caption, 12.0f, ImVec2(x, y), kMuted, value);
 }
 
 void divider(float x1, float x2, float y)
@@ -242,7 +242,7 @@ void pill(const Rect& r, const char* value, const ImVec4& color)
 	draw->AddRectFilled(r.min, r.max, color_u32(fade(color, 0.10f)), height(r) * 0.5f);
 	draw->AddRect(r.min, r.max, color_u32(fade(color, 0.22f)), height(r) * 0.5f, 0, 1.0f);
 	draw->AddCircleFilled(ImVec2(r.min.x + 12.0f, r.min.y + height(r) * 0.5f), 2.5f, color_u32(color));
-	text(font.small, 10.0f, ImVec2(r.min.x + 20.0f, r.min.y + (height(r) - 10.0f) * 0.5f - 1.0f),
+	text(font.caption, 10.0f, ImVec2(r.min.x + 20.0f, r.min.y + (height(r) - 10.0f) * 0.5f - 1.0f),
 		lift(color, 0.18f), value);
 }
 
@@ -291,7 +291,7 @@ void draw_card(const Rect& r, const char* title, const char* description)
 {
 	box(r, kPanel, 14.0f, &kLine);
 	text(font.semibold, 17.0f, ImVec2(r.min.x + 22.0f, r.min.y + 20.0f), kText, title);
-	text(font.small, 12.0f, ImVec2(r.min.x + 22.0f, r.min.y + 46.0f), kMuted, description);
+	text(font.caption, 12.0f, ImVec2(r.min.x + 22.0f, r.min.y + 46.0f), kMuted, description);
 }
 
 // ------------------------------------------------------------------ chrome ----
@@ -316,7 +316,7 @@ void draw_title_bar()
 	text_center(font.semibold, 13.0f, logo, ImVec4(0.04f, 0.05f, 0.08f, 1.0f), "IM");
 
 	text(font.semibold, 14.0f, ImVec2(62.0f, 15.0f), kText, "Dear ImGui Template");
-	text(font.small, 11.0f, ImVec2(62.0f, 33.0f), kMuted, "Win32  |  DirectX 11  |  Single screen");
+	text(font.caption, 11.0f, ImVec2(62.0f, 33.0f), kMuted, "Win32  |  DirectX 11  |  Single screen");
 
 	ImGui::SetCursorScreenPos(ImVec2(0.0f, 0.0f));
 	ImGui::InvisibleButton("##title_drag", ImVec2(app::kWidth - 100.0f, 60.0f));
@@ -332,7 +332,7 @@ void draw_title_bar()
 
 void draw_header()
 {
-	text(font.small, 10.0f, ImVec2(36.0f, 86.0f), accent_color(), "DEAR IMGUI / STARTER");
+	text(font.caption, 10.0f, ImVec2(36.0f, 86.0f), accent_color(), "DEAR IMGUI / STARTER");
 	text(font.title, 28.0f, ImVec2(36.0f, 102.0f), kText, "Single-screen template");
 	text(font.body, 13.0f, ImVec2(36.0f, 142.0f), kMuted,
 		"All common ImGui widgets in one place. Keep what you need, delete the rest.");
@@ -354,13 +354,13 @@ void draw_footer()
 
 	char left[96];
 	std::snprintf(left, sizeof(left), "Dear ImGui %s  |  Win32  |  DirectX 11", IMGUI_VERSION);
-	text(font.small, 10.0f, ImVec2(50.0f, 682.0f), kDim, left);
+	text(font.caption, 10.0f, ImVec2(50.0f, 682.0f), kDim, left);
 
 	char right[64];
 	std::snprintf(right, sizeof(right), "FPS %d  |  v%s",
 		static_cast<int>(state.fps + 0.5f), app::kVersion);
-	const float right_width = text_width(font.small, 10.0f, right);
-	text(font.small, 10.0f, ImVec2(1124.0f - right_width, 682.0f), kDim, right);
+	const float right_width = text_width(font.caption, 10.0f, right);
+	text(font.caption, 10.0f, ImVec2(1124.0f - right_width, 682.0f), kDim, right);
 }
 
 // ------------------------------------------------------------------ cards ----
@@ -403,7 +403,7 @@ void draw_inputs_card()
 	ImGui::SetNextItemWidth(w);
 	ImGui::SliderFloat("##opacity", &state.opacity, 0.0f, 1.0f, "%.2f");
 
-	text(font.small, 11.0f, ImVec2(x, 612.0f), kDim, "Values stay local to this demo.");
+	text(font.caption, 11.0f, ImVec2(x, 612.0f), kDim, "Values stay local to this demo.");
 }
 
 void draw_selection_card()
@@ -477,7 +477,7 @@ void draw_actions_card()
 	ImGui::SetCursorScreenPos(ImVec2(x, 342.0f));
 	if (ImGui::SmallButton("Small button"))
 		state.status = "Small button clicked.";
-	text(font.small, 11.0f, ImVec2(x + 94.0f, 346.0f), kDim, "Compact variant");
+	text(font.caption, 11.0f, ImVec2(x + 94.0f, 346.0f), kDim, "Compact variant");
 
 	divider(x, x + w, 374.0f);
 
@@ -489,7 +489,7 @@ void draw_actions_card()
 	ImGui::ProgressBar(state.progress, ImVec2(w, 20.0f), percent);
 
 	label("Status", x, 434.0f);
-	ImGui::PushFont(font.small, 12.0f);
+	ImGui::PushFont(font.caption, 12.0f);
 	ImGui::PushStyleColor(ImGuiCol_Text, state.running ? accent_color() : kMuted);
 	ImGui::SetCursorScreenPos(ImVec2(x, 452.0f));
 	ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + w);
